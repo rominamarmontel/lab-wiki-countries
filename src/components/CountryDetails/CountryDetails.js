@@ -6,12 +6,11 @@ const CountryDetails = ({ countries }) => {
   const foundCountry = countries.find((country) => {
     return country.alpha3Code === code;
   });
-
   return (
     <div className="col-7">
       <h1>Hello</h1>
       <h1>{foundCountry.altSpellings[2]}</h1>
-      <table class="table">
+      <table className="table">
         <thead></thead>
         <tbody>
           <tr>
@@ -34,7 +33,7 @@ const CountryDetails = ({ countries }) => {
                     return country.alpha3Code === border;
                   });
                   return (
-                    <li>
+                    <li key={borderCountry._id}>
                       <Link to={`/${border}`}>
                         {borderCountry.altSpellings[2]}
                       </Link>
