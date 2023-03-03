@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import countriesDB from './countries.json';
@@ -8,7 +8,7 @@ import CountryDetails from './components/CountryDetails/CountryDetails';
 
 function App() {
   // eslint-disable-next-line
-  const [countries, setCountries] = useState(countriesDB);
+  const [countries, setCountries] = useState([]);
   // const allCountries = (country) => {
   //   setCountries([...countries]);
   // };
@@ -23,6 +23,23 @@ function App() {
   //       setCountries(res[0]);
   //     });
   // }, []);
+  const apiUrl = `https://ih-countries-api.herokuapp.com/countries/`;
+  useEffect(() => {
+    async function fetchCountries() {
+      try {
+        const raw = await fetch(apiUrl);
+        const res = await raw.json();
+        setCountries(res);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchCountries();
+  }, [apiUrl]);
+  if (!countries.length) {
+    console.log('load');
+    return;
+  }
 
   return (
     <>
@@ -30,17 +47,14 @@ function App() {
         <Navbar />
         <div className="container">
           <div className="row">
-            {countries.map((country) => {
-              return <CountriesList country={country} />;
-            })}
+            <CountriesList countries={countries} />
             <Routes>
-              {/* <Route path="/" element={<CountriesList />}> */}
-              <Route path="/:country.alpha3Code" element={<CountryDetails />} />
-              {/* </Route> */}
-              {/* <Route path="/countryDetails" element={<CountryDetails />}>
-                    <Route path=":id" element={<CountryDetails />} />
-                  </Route> */}
-              <Route path="*" element={<h1>404</h1>} />
+              <Route
+                path="/:code"
+                element={<CountryDetails countries={countries} />}
+              />
+
+              {/* <Route path="*" element={<h1>404</h1>} /> */}
             </Routes>
           </div>
         </div>
