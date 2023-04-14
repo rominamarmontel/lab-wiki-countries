@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
-import countriesDB from './countries.json';
+// import countriesDB from './countries.json';
 import Navbar from './components/Navbar/Navbar';
 import CountriesList from './components/CountriesList/CountriesList';
 import CountryDetails from './components/CountryDetails/CountryDetails';
 
 function App() {
-  // eslint-disable-next-line
   const [countries, setCountries] = useState([]);
   // const allCountries = (country) => {
   //   setCountries([...countries]);
@@ -36,6 +35,13 @@ function App() {
     }
     fetchCountries();
   }, [apiUrl]);
+
+  // useEffect(() => {
+  //   axios.get(apiUrl).then((response) => {
+  //     setCountries(response.data);
+  //   });
+  // }, [apiUrl]);
+
   if (!countries.length) {
     console.log('load');
     return;

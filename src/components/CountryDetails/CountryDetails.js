@@ -1,21 +1,31 @@
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 
 const CountryDetails = ({ countries }) => {
-  const { code } = useParams();
+  const { id } = useParams();
   const foundCountry = countries.find((country) => {
-    return country.alpha3Code === code;
+    return country.alpha3Code === id;
   });
+
   return (
     <div className="col-7">
-      <h1>Hello</h1>
-      <h1>{foundCountry.altSpellings[2]}</h1>
       <table className="table">
-        <thead></thead>
+        <thead>
+          <tr>
+            <td>
+              <img
+                src={`https://flagpedia.net/data/flags/w1160/${foundCountry.alpha2Code.toLowerCase()}.webp`}
+                alt={foundCountry.name.official}
+                style={{ width: '350px' }}
+              />
+              <h1>{foundCountry.altSpellings[2]}</h1>
+            </td>
+          </tr>
+        </thead>
         <tbody>
           <tr>
             <td style={{ width: '30%' }}>Capital</td>
-            <td>{foundCountry.capital}</td>
+            <td>{foundCountry.capital[0]}</td>
           </tr>
           <tr>
             <td>Area</td>
@@ -32,6 +42,7 @@ const CountryDetails = ({ countries }) => {
                   const borderCountry = countries.find((country) => {
                     return country.alpha3Code === border;
                   });
+                  console.log(border);
                   return (
                     <li key={borderCountry._id}>
                       <Link to={`/${border}`}>
